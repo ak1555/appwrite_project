@@ -27,7 +27,43 @@ class Appwriteservice {
           databaseId: databaseId,
           collectionId: collectionId,
           documentId: documentId,
-          data: {});
+          data: {"name": _name, "photo": _photo, "isComplete": false});
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<List<Document>> getTask() async {
+    try {
+      final result = await databases.listDocuments(
+          databaseId: databaseId, collectionId: collectionId);
+      return result.documents;
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  Future<Document> UpdateColor(String documentId, bool completed) async {
+    try {
+      final result = await databases.updateDocument(
+          databaseId: databaseId,
+          collectionId: collectionId,
+          documentId: documentId,
+          data: {"isComplete": completed});
+      return result;
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  Future<void> delete(documentId) async {
+    try {
+      final res = await databases.deleteDocument(
+          databaseId: databaseId,
+          collectionId: collectionId,
+          documentId: documentId);
     } catch (e) {
       print(e);
     }
